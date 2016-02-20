@@ -1,4 +1,4 @@
-# XListView
+# XListView（感谢您的Star or Fork）
 XListView的修改版,增加仿IOS的等待圈
 
 ## 演示gif
