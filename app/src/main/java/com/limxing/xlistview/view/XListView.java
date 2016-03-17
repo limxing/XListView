@@ -48,7 +48,7 @@ public class XListView extends ListView implements OnScrollListener {
 
     // -- footer view
     private XListViewFooter mFooterView;
-    private boolean mEnablePullLoad;
+    private boolean mEnablePullLoad=false;
     private boolean mPullLoading;
     private boolean mIsFooterReady = false;
 
@@ -117,9 +117,11 @@ public class XListView extends ListView implements OnScrollListener {
         mFooterView.findViewById(R.id.xlistview_footer_hint_textview).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPullLoading = true;
-                mFooterView.setState(XListViewFooter.STATE_LOADING);
-                startLoadMore();
+                if(!mPullLoading&&!mPullRefreshing) {
+                    mPullLoading = true;
+                    mFooterView.setState(XListViewFooter.STATE_LOADING);
+                    startLoadMore();
+                }
             }
         });
     }
@@ -315,16 +317,16 @@ public class XListView extends ListView implements OnScrollListener {
                     // the first item is showing, header has shown or pull down.
                     updateHeaderHeight(deltaY / OFFSET_RADIO);
                     invokeOnScrolling();
+
                 } else if (!mPullRefreshing && getLastVisiblePosition() == mTotalItemCount - 1
                         && (mFooterView.getBottomMargin() > 0 || deltaY < 0)) {
                     // last item, already pulled up or want to pull up.
                     updateFooterHeight(-deltaY / OFFSET_RADIO);
+
                 }
                 break;
             case MotionEvent.ACTION_UP:
-
                 mLastY = -1; // reset
-
                 if (!mPullRefreshing && getFirstVisiblePosition() == 0) {
                     // invoke refresh
                     if (mEnablePullRefresh
@@ -336,7 +338,8 @@ public class XListView extends ListView implements OnScrollListener {
                         }
                     }
 
-                } else if (!mPullLoading && getLastVisiblePosition() == mTotalItemCount - 1) {
+                }
+                if (!mPullLoading && getLastVisiblePosition() == mTotalItemCount - 1) {
                     // invoke load more.
                     if (mEnablePullLoad
                             && mFooterView.getBottomMargin() > PULL_LOAD_MORE_DELTA

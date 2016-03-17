@@ -18,13 +18,15 @@ public class MainActivity extends AppCompatActivity implements XListView.IXListV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         listview=(XListView) findViewById(R.id.listview);
         listview.setPullLoadEnable(true);
         listview.setXListViewListener(this);
+
         listview.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {
-                return 20;
+                return 3;
             }
 
             @Override
