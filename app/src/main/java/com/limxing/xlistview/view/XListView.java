@@ -264,12 +264,14 @@ public class XListView extends ListView implements OnScrollListener {
 
     private void updateFooterHeight(float delta) {
         int height = mFooterView.getBottomMargin() + (int) delta;
-        if (mEnablePullLoad && !mPullLoading) {
+        if (mEnablePullLoad ) {
             if (height > PULL_LOAD_MORE_DELTA) { // height enough to invoke load
                 // more.
                 mFooterView.setState(XListViewFooter.STATE_READY);
+                mPullLoading = true;
             } else {
                 mFooterView.setState(XListViewFooter.STATE_NORMAL);
+                mPullLoading = false;
             }
         }
         mFooterView.setBottomMargin(height);
@@ -318,7 +320,7 @@ public class XListView extends ListView implements OnScrollListener {
                     updateHeaderHeight(deltaY / OFFSET_RADIO);
                     invokeOnScrolling();
 
-                } else if (!mPullRefreshing && getLastVisiblePosition() == mTotalItemCount - 1
+                } else if (!mPullRefreshing && !mPullLoading&&getLastVisiblePosition() == mTotalItemCount - 1
                         && (mFooterView.getBottomMargin() > 0 || deltaY < 0)) {
                     // last item, already pulled up or want to pull up.
                     updateFooterHeight(-deltaY / OFFSET_RADIO);
@@ -339,12 +341,10 @@ public class XListView extends ListView implements OnScrollListener {
                     }
 
                 }
-                if (!mPullLoading && getLastVisiblePosition() == mTotalItemCount - 1) {
+                if (mPullLoading && getLastVisiblePosition() == mTotalItemCount - 1) {
                     // invoke load more.
                     if (mEnablePullLoad
-                            && mFooterView.getBottomMargin() > PULL_LOAD_MORE_DELTA
-                            && !mPullLoading) {
-                        mPullLoading = true;
+                            && mFooterView.getBottomMargin() > PULL_LOAD_MORE_DELTA) {
                         mFooterView.setState(XListViewFooter.STATE_LOADING);
                         startLoadMore();
                     }
