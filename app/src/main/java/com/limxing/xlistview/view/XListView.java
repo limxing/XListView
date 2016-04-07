@@ -204,7 +204,7 @@ public class XListView extends ListView implements OnScrollListener {
             mPullLoad=false;
             mPullLoading = false;
             mFooterView.setState(XListViewFooter.STATE_NORMAL);
-//            resetFooterHeight();
+            resetFooterHeight();
         }
     }
 
