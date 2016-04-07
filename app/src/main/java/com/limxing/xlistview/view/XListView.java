@@ -65,6 +65,7 @@ public class XListView extends ListView implements OnScrollListener {
     // at bottom, trigger
     // load more.
     private final static float OFFSET_RADIO = 1.8f; // support iOS like pull
+    private boolean mPullLoad;
     // feature.
 
     /**
@@ -200,7 +201,7 @@ public class XListView extends ListView implements OnScrollListener {
      */
     public void stopLoadMore() {
         if (mPullLoading) {
-
+            mPullLoad=false;
             mPullLoading = false;
             mFooterView.setState(XListViewFooter.STATE_NORMAL);
 //            resetFooterHeight();
@@ -272,6 +273,7 @@ public class XListView extends ListView implements OnScrollListener {
             } else {
                 mFooterView.setState(XListViewFooter.STATE_NORMAL);
                 mPullLoading = false;
+                mPullLoad=false;
             }
         }
         mFooterView.setBottomMargin(height);
@@ -320,7 +322,7 @@ public class XListView extends ListView implements OnScrollListener {
                     updateHeaderHeight(deltaY / OFFSET_RADIO);
                     invokeOnScrolling();
 
-                } else if (!mPullRefreshing && !mPullLoading&&getLastVisiblePosition() == mTotalItemCount - 1
+                } else if (!mPullRefreshing && !mPullLoad&&getLastVisiblePosition() == mTotalItemCount - 1
                         && (mFooterView.getBottomMargin() > 0 || deltaY < 0)) {
                     // last item, already pulled up or want to pull up.
                     updateFooterHeight(-deltaY / OFFSET_RADIO);
@@ -346,6 +348,7 @@ public class XListView extends ListView implements OnScrollListener {
                     if (mEnablePullLoad
                             && mFooterView.getBottomMargin() > PULL_LOAD_MORE_DELTA) {
                         mFooterView.setState(XListViewFooter.STATE_LOADING);
+                        mPullLoad=true;
                         startLoadMore();
                     }
 
