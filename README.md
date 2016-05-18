@@ -5,7 +5,7 @@ QQ交流群：548565738
 ## 演示gif
 ![Alt text](/1455954852391.gif)
 ![Alt text](/1455954867924.gif)
-##原作者XListView https://github.com/Maxwin-z/XListView-Android
+####原作者XListView https://github.com/Maxwin-z/XListView-Android
 ##个人更新地方:
     增加了时间的判断显示
     修改了刷新的同时不能够加载,加载的时候不能够刷新
