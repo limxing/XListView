@@ -12,3 +12,8 @@ QQ交流群：548565738
     增加了仿IOS的自定义LoadView的旋转等待图片(如果您也喜欢,欢迎Fork or Star)
 ##Usage
     与原XListView一致
+
+2016-05-18更新:
+添加执行更新的方法
+ startRefresh()
+

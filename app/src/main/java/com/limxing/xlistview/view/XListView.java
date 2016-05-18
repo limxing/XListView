@@ -423,4 +423,19 @@ public class XListView extends ListView implements OnScrollListener {
 
         public void onLoadMore();
     }
+    /**
+     * 执行刷新
+     */
+    public void startRefresh(){
+        mPullRefreshing = true;
+        mHeaderView.setState(XListViewHeader.STATE_REFRESHING);
+        if (mListViewListener != null) {
+            mListViewListener.onRefresh();
+        }
+        mScrollBack = SCROLLBACK_HEADER;
+        mScroller.startScroll(0, 0, 0,mHeaderViewHeight,
+                SCROLL_DURATION);
+        // trigger computeScroll
+        invalidate();
+    }
 }
