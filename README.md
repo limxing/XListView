@@ -1,6 +1,6 @@
 # XListView（感谢您的Star or Fork）
 XListView的修改版,增加仿IOS的等待圈
-QQ交流群：548565738
+QQ交流群：
 
 ## 演示gif
 ![Alt text](/1455954852391.gif)
