@@ -18,7 +18,7 @@ QQ交流群：
  startRefresh()
  
  添加一个隐藏时间的方法
- 
+ hideTimeView();
 
 添加一个可以设置标题和结尾的功能
 
