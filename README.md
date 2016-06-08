@@ -21,5 +21,6 @@ QQ交流群：
  hideTimeView();
 
 添加一个可以设置标题和结尾的功能
+setFootText(String text)    setHeaderText(String header)
 
 添加一个当ListView为空时可以添加图片或提示语
