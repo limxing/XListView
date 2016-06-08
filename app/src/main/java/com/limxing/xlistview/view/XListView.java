@@ -445,4 +445,21 @@ public class XListView extends ListView implements OnScrollListener {
     public void hideTimeView(){
         mHeaderTimeView.setVisibility(View.GONE);
     }
+
+    /**
+     * 设置底部文字
+     * @param text
+     */
+    public void setFootText(String text) {
+        mFooterView.getmHintView().setText(text);
+    }
+
+    /**
+     * 设置头部文字
+     * @param header
+     */
+    public void setHeaderText(String header){
+        mHeaderView.getmHintTextView().setText(header);
+    }
+
 }

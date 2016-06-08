@@ -235,4 +235,7 @@ public class XListViewHeader extends LinearLayout {
         xlistview_header_time.setText(updateAtValue);
     }
 
+    public TextView getmHintTextView() {
+        return mHintTextView;
+    }
 }
