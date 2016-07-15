@@ -116,9 +116,11 @@ public class XListViewHeader extends LinearLayout {
                 }
                 break;
             case STATE_REFRESHING:
+                mProgressBar.startLoad();
                 mHintTextView.setText(R.string.xlistview_header_hint_loading);
                 break;
             case STATE_SUCCESS:
+                mProgressBar.stopLoad();
                 mHintTextView.setText(R.string.xlistview_header_hint_success);
                 mArrowImageView.setImageResource(R.drawable.ic_done_grey600_18dp);
                 SharedPreferences.Editor editor = preferences.edit();//获取编辑器
