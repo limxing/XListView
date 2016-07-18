@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.limxing.xlistview.R;
 
+import java.lang.ref.SoftReference;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,12 +20,9 @@ import java.util.TimerTask;
  * Created by limxing on 16/1/7.
  */
 public class LoadView extends ImageView {
-    private float degrees = 0f;
-    private Matrix max;
+    private MyRunable runnable;
     private int width;
     private int height;
-    private MyRunable runnable;
-
     public LoadView(Context context) {
         super(context);
         init();
@@ -44,19 +42,15 @@ public class LoadView extends ImageView {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         runnable = null;
-        max = null;
     }
 
     private void init() {
         setScaleType(ScaleType.MATRIX);
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.loading);
         setImageBitmap(bitmap);
-        max = new Matrix();
         width = bitmap.getWidth() / 2;
         height = bitmap.getHeight() / 2;
-        runnable = new MyRunable();
-        postDelayed(runnable, 80);
-
+        runnable = new MyRunable(this);
     }
 
     public void startLoad() {
@@ -71,20 +65,28 @@ public class LoadView extends ImageView {
         }
     }
 
-    class MyRunable implements Runnable {
+    static class MyRunable implements Runnable {
         private boolean flag;
+        private SoftReference<LoadView> loadingViewSoftReference;
+        private float degrees = 0f;
+        private Matrix max;
+
+        public MyRunable(LoadView loadingView){
+            loadingViewSoftReference=new SoftReference<LoadView>(loadingView);
+            max = new Matrix();
+        }
 
         @Override
         public void run() {
-            if (runnable != null && max != null) {
+            if (loadingViewSoftReference.get().runnable != null && max != null) {
                 degrees += 30f;
-                max.setRotate(degrees, width, height);
-                setImageMatrix(max);
+                max.setRotate(degrees,  loadingViewSoftReference.get().width,  loadingViewSoftReference.get().height);
+                loadingViewSoftReference.get().setImageMatrix(max);
                 if (degrees == 360) {
                     degrees = 0;
                 }
                 if (flag) {
-                    postDelayed(runnable, 80);
+                    loadingViewSoftReference.get().postDelayed(loadingViewSoftReference.get().runnable, 80);
                 }
             }
         }
@@ -95,8 +97,8 @@ public class LoadView extends ImageView {
 
         public void startload() {
             flag = true;
-            if (runnable != null && max != null) {
-                postDelayed(runnable, 80);
+            if (loadingViewSoftReference.get().runnable != null && max != null) {
+                loadingViewSoftReference.get().postDelayed(loadingViewSoftReference.get().runnable, 80);
             }
         }
     }
