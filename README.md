@@ -3,8 +3,8 @@ XListView的修改版,增加仿IOS的等待圈
 QQ交流群：
 
 ## 演示gif
-![Alt text](/1455954852391.gif)
-![Alt text](/1455954867924.gif)
+![Alt text](/fresh.gif)
+![Alt text](/load.gif)
 ####原作者XListView https://github.com/Maxwin-z/XListView-Android
 ##个人更新地方:
     增加了时间的判断显示
@@ -23,4 +23,5 @@ QQ交流群：
 2016-06-8 添加一个可以设置标题和结尾的功能
 setFootText(String text)    setHeaderText(String header)
 
-添加一个当ListView为空时可以添加图片或提示语
+2016-07-21 更新一个方法(stopRefresh),更换来三个状态图标
+//添加一个当ListView为空时可以添加图片或提示语
