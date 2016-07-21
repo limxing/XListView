@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements XListView.IXListV
         listview.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {
-                return 3;
+                return 15;
             }
 
             @Override
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements XListView.IXListV
             @Override
             public View getView(int i, View view, ViewGroup viewGroup) {
                 TextView view1 = new TextView(MainActivity.this);
-                view1.setText("limxing" + i);
+                view1.setText("leefeng.me" + i);
                 view1.setHeight(100);
                 return view1;
             }
