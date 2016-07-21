@@ -26,7 +26,8 @@ public class XListViewFooter extends LinearLayout {
 	private View mContentView;
 	private View mProgressBar;
 	private TextView mHintView;
-	
+	private LoadView loadview;
+
 	public XListViewFooter(Context context) {
 		super(context);
 		initView(context);
@@ -46,8 +47,10 @@ public class XListViewFooter extends LinearLayout {
 			mHintView.setVisibility(View.VISIBLE);
 			mHintView.setText(R.string.xlistview_footer_hint_ready);
 		} else if (state == STATE_LOADING) {
+			loadview.startLoad();
 			mProgressBar.setVisibility(View.VISIBLE);
 		} else {
+			loadview.stopLoad();
 			mHintView.setVisibility(View.VISIBLE);
 			mHintView.setText(R.string.xlistview_footer_hint_normal);
 		}
@@ -110,6 +113,7 @@ public class XListViewFooter extends LinearLayout {
 		mContentView = moreView.findViewById(R.id.xlistview_footer_content);
 		mProgressBar = moreView.findViewById(R.id.xlistview_footer_progressbar);
 		mHintView = (TextView)moreView.findViewById(R.id.xlistview_footer_hint_textview);
+		loadview=(LoadView)moreView.findViewById(R.id.xlistview_footer_loadview);
 
 	}
 
