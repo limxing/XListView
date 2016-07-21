@@ -45,9 +45,8 @@
             android:id="@+id/xlistview_header_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/xlistview_header_text"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="-35dp"
+            android:layout_marginLeft="100dp"
             android:src="@drawable/default_ptr_flip" />
 
 
@@ -55,9 +54,8 @@
             android:id="@+id/xlistview_header_progressbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/xlistview_header_text"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="-40dp"
+            android:layout_marginLeft="100dp"
             android:visibility="invisible" />
     </RelativeLayout>
 

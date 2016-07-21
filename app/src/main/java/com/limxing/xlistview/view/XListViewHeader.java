@@ -24,6 +24,7 @@ import com.limxing.xlistview.R;
 
 
 public class XListViewHeader extends LinearLayout {
+    public static final int STATE_FRESH_FAILT = 4;
     private LinearLayout mContainer;
     private ImageView mArrowImageView;
     private LoadView mProgressBar;
@@ -122,10 +123,18 @@ public class XListViewHeader extends LinearLayout {
             case STATE_SUCCESS:
                 mProgressBar.stopLoad();
                 mHintTextView.setText(R.string.xlistview_header_hint_success);
-                mArrowImageView.setImageResource(R.drawable.ic_done_grey600_18dp);
+                mArrowImageView.setImageResource(R.drawable.xlistview_success);
                 SharedPreferences.Editor editor = preferences.edit();//获取编辑器
                 editor.putLong(UPDATED_AT + mId, System.currentTimeMillis());
                 editor.commit();//提交修改
+                break;
+            case STATE_FRESH_FAILT:
+                mProgressBar.stopLoad();
+                mHintTextView.setText(R.string.xlistview_header_hint_failt);
+                mArrowImageView.setImageResource(R.drawable.xlistview_error);
+                SharedPreferences.Editor editor1 = preferences.edit();//获取编辑器
+                editor1.putLong(UPDATED_AT + mId, System.currentTimeMillis());
+                editor1.commit();//提交修改
                 break;
             default:
         }

@@ -182,9 +182,13 @@ public class XListView extends ListView implements OnScrollListener {
     /**
      * stop refresh, reset header view.
      */
-    public void stopRefresh() {
+    public void stopRefresh(boolean isSuccess) {
         if (mPullRefreshing) {
-            mHeaderView.setState(XListViewHeader.STATE_SUCCESS);
+            if (isSuccess) {
+                mHeaderView.setState(XListViewHeader.STATE_SUCCESS);
+            }else{
+                mHeaderView.setState(XListViewHeader.STATE_FRESH_FAILT);
+            }
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

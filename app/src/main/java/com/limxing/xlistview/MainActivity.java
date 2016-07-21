@@ -13,13 +13,14 @@ import com.limxing.xlistview.view.XListView;
 public class MainActivity extends AppCompatActivity implements XListView.IXListViewListener {
 
     private XListView listview;
+    private boolean b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listview=(XListView) findViewById(R.id.listview);
+        listview = (XListView) findViewById(R.id.listview);
         listview.setPullLoadEnable(true);
         listview.setXListViewListener(this);
 
@@ -55,7 +56,8 @@ public class MainActivity extends AppCompatActivity implements XListView.IXListV
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                listview.stopRefresh();
+                listview.stopRefresh(b);
+                b = !b;
             }
         }, 2000);
     }
