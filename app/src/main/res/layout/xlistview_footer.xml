@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
+    android:orientation="vertical"
     android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/xlistview_footer_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:layout_marginTop="100dp"
+            android:text="没有任何数据" />
+    </RelativeLayout>
     <RelativeLayout
         android:id="@+id/xlistview_footer_content"
         android:layout_width="fill_parent"

@@ -23,11 +23,10 @@ public class MainActivity extends AppCompatActivity implements XListView.IXListV
         listview = (XListView) findViewById(R.id.listview);
         listview.setPullLoadEnable(true);
         listview.setXListViewListener(this);
-
         listview.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {
-                return 15;
+                return 0;
             }
 
             @Override

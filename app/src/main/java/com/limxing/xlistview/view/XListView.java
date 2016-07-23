@@ -48,9 +48,10 @@ public class XListView extends ListView implements OnScrollListener {
 
     // -- footer view
     private XListViewFooter mFooterView;
-    private boolean mEnablePullLoad=false;
+    private boolean mEnablePullLoad = false;
     private boolean mPullLoading;
     private boolean mIsFooterReady = false;
+    private boolean isPullLoad = false;
 
     // total list items, used to detect is at the bottom of listview.
     private int mTotalItemCount;
@@ -98,7 +99,7 @@ public class XListView extends ListView implements OnScrollListener {
                 .findViewById(R.id.xlistview_header_content);
         mHeaderTimeView = (TextView) mHeaderView
                 .findViewById(R.id.xlistview_header_time);
-        addHeaderView(mHeaderView,null,false);
+        addHeaderView(mHeaderView, null, false);
 
         // init footer view
         mFooterView = new XListViewFooter(context);
@@ -118,7 +119,7 @@ public class XListView extends ListView implements OnScrollListener {
         mFooterView.findViewById(R.id.xlistview_footer_hint_textview).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mPullLoading&&!mPullRefreshing) {
+                if (!mPullLoading && !mPullRefreshing) {
                     mPullLoading = true;
                     mFooterView.setState(XListViewFooter.STATE_LOADING);
                     startLoadMore();
@@ -157,6 +158,7 @@ public class XListView extends ListView implements OnScrollListener {
      * @param enable
      */
     public void setPullLoadEnable(boolean enable) {
+        isPullLoad = enable;
         mEnablePullLoad = enable;
         if (!mEnablePullLoad) {
             mFooterView.hide();
@@ -195,20 +197,39 @@ public class XListView extends ListView implements OnScrollListener {
                     mPullRefreshing = false;
                     resetHeaderHeight();
                 }
-            }, 500);
+            }, 1000);
 
         }
     }
+
+
 
     /**
      * stop load more, reset footer view.
      */
     public void stopLoadMore() {
         if (mPullLoading) {
-            mPullLoad=false;
+            mPullLoad = false;
             mPullLoading = false;
             mFooterView.setState(XListViewFooter.STATE_NORMAL);
             resetFooterHeight();
+        }
+    }
+
+    /**
+     * 添加一个停止加载后更改提示字的方法
+     *
+     * @param msg
+     */
+    public void stopLoadMore(String msg) {
+        if (mPullLoading) {
+            mPullLoad = false;
+            mPullLoading = false;
+            mFooterView.setState(XListViewFooter.STATE_NORMAL);
+            resetFooterHeight();
+        }
+        if (msg.length() > 0) {
+            mFooterView.getmHintView().setText(msg);
         }
     }
 
@@ -269,7 +290,7 @@ public class XListView extends ListView implements OnScrollListener {
 
     private void updateFooterHeight(float delta) {
         int height = mFooterView.getBottomMargin() + (int) delta;
-        if (mEnablePullLoad ) {
+        if (mEnablePullLoad) {
             if (height > PULL_LOAD_MORE_DELTA) { // height enough to invoke load
                 // more.
                 mFooterView.setState(XListViewFooter.STATE_READY);
@@ -277,7 +298,7 @@ public class XListView extends ListView implements OnScrollListener {
             } else {
                 mFooterView.setState(XListViewFooter.STATE_NORMAL);
                 mPullLoading = false;
-                mPullLoad=false;
+                mPullLoad = false;
             }
         }
         mFooterView.setBottomMargin(height);
@@ -326,7 +347,7 @@ public class XListView extends ListView implements OnScrollListener {
                     updateHeaderHeight(deltaY / OFFSET_RADIO);
                     invokeOnScrolling();
 
-                } else if (!mPullRefreshing && !mPullLoad&&getLastVisiblePosition() == mTotalItemCount - 1
+                } else if (!mPullRefreshing && !mPullLoad && getLastVisiblePosition() == mTotalItemCount - 1
                         && (mFooterView.getBottomMargin() > 0 || deltaY < 0)) {
                     // last item, already pulled up or want to pull up.
                     updateFooterHeight(-deltaY / OFFSET_RADIO);
@@ -352,7 +373,7 @@ public class XListView extends ListView implements OnScrollListener {
                     if (mEnablePullLoad
                             && mFooterView.getBottomMargin() > PULL_LOAD_MORE_DELTA) {
                         mFooterView.setState(XListViewFooter.STATE_LOADING);
-                        mPullLoad=true;
+                        mPullLoad = true;
                         startLoadMore();
                     }
 
@@ -427,31 +448,35 @@ public class XListView extends ListView implements OnScrollListener {
 
         public void onLoadMore();
     }
+
     /**
+     * Executive refresh
      * 执行刷新
      */
-    public void startRefresh(){
+    public void startRefresh() {
         mPullRefreshing = true;
         mHeaderView.setState(XListViewHeader.STATE_REFRESHING);
         if (mListViewListener != null) {
             mListViewListener.onRefresh();
         }
         mScrollBack = SCROLLBACK_HEADER;
-        mScroller.startScroll(0, 0, 0,mHeaderViewHeight,
+        mScroller.startScroll(0, 0, 0, mHeaderViewHeight,
                 SCROLL_DURATION);
         // trigger computeScroll
         invalidate();
     }
+
     /**
      * Set hide time
      * 设置隐藏时间
      */
-    public void hideTimeView(){
+    public void hideTimeView() {
         mHeaderTimeView.setVisibility(View.GONE);
     }
 
     /**
      * 设置底部文字
+     *
      * @param text
      */
     public void setFootText(String text) {
@@ -460,10 +485,37 @@ public class XListView extends ListView implements OnScrollListener {
 
     /**
      * 设置头部文字
+     *
      * @param header
      */
-    public void setHeaderText(String header){
+    public void setHeaderText(String header) {
         mHeaderView.getmHintTextView().setText(header);
     }
 
+
+    /**
+     * notification的时候调用
+     */
+    @Override
+    public void requestLayout() {
+        super.requestLayout();
+        if (mFooterView == null) {
+            return;
+        }
+        if (getCount() <= getHeaderViewsCount() + getFooterViewsCount()) {
+            mFooterView.setNoneDataState(true);
+            if (isPullLoad) {
+//                setPullLoadEnable(false);
+                mEnablePullLoad = false;
+                mFooterView.hide();
+            }
+        } else {
+            mFooterView.setNoneDataState(false);
+            if (isPullLoad) {
+//                setPullLoadEnable(true);
+                mEnablePullLoad = true;
+                mFooterView.show();
+            }
+        }
+    }
 }
