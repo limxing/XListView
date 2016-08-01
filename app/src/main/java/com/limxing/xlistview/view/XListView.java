@@ -95,6 +95,7 @@ public class XListView extends ListView implements OnScrollListener {
 
         // init header view
         mHeaderView = new XListViewHeader(context);
+
         mHeaderViewContent = (RelativeLayout) mHeaderView
                 .findViewById(R.id.xlistview_header_content);
         mHeaderTimeView = (TextView) mHeaderView

@@ -6,6 +6,7 @@ QQ交流群：
 ![Alt text](/fresh.gif)
 ![Alt text](/load.gif)
 ####原作者XListView https://github.com/Maxwin-z/XListView-Android
+####RecyclerView的版本:https://github.com/limxing/LFRecyclerView-Android
 ##个人更新地方:
     增加了时间的判断显示
     修改了刷新的同时不能够加载,加载的时候不能够刷新
